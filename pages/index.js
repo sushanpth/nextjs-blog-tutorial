@@ -1,14 +1,17 @@
 import Head from 'next/head';
+import Link from 'next/link';
+
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import { getSortedPostsData } from '../lib/posts'
+import Date from '../components/date';
 
 /*
   Static Generation is the pre-rendering method that generates the HTML at build time. 
   The pre-rendered HTML is then reused on each request.
   Using Static Generation (getStaticProps())
 */
-export async function getStaticProps(){
+export async function getStaticProps() {
   const allPostsData = getSortedPostsData()
 
   return {
@@ -37,9 +40,9 @@ export default function Home({ allPostsData }) {
       </Head>
       <section className={utilStyles.headingMd}>
         <p>
-          In publishing and graphic design, Lorem ipsum is a placeholder text 
-          commonly used to demonstrate the visual form of a document or a typeface 
-          without relying on meaningful content. 
+          In publishing and graphic design, Lorem ipsum is a placeholder text
+          commonly used to demonstrate the visual form of a document or a typeface
+          without relying on meaningful content.
           Lorem ipsum may be used as a placeholder before final copy is available.
         </p>
         <p>
@@ -53,11 +56,11 @@ export default function Home({ allPostsData }) {
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              {title}
+              <Link href={`/posts/${id}`}>{title}</Link>
               <br />
-              {id}
-              <br />
-              {date}
+              <small className={utilStyles.lightText}>
+                <Date dateString={date} />
+              </small>
             </li>
           ))}
         </ul>
